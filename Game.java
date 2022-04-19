@@ -4,167 +4,31 @@ import java.util.Scanner;
 
 public class Game {
     static Boarder boarder=new Boarder();
-
-    public static boolean firstMove(Piece piece){
-        /*if(i%2==0 && j%2==1){
-            Boarder.currentPiece = null;
-            return false;
-        } else if(i%2==1 && j%2==0){
-            Boarder.currentPiece = null;
-            return false;
-        }*/
-        boarder.currentPiece=piece;
-        boarder.pieces[10][10]=piece;
-        return true;
-    }
+    static Player w_player = new Player();
+    static Player b_player = new Player();
+    static Scanner input = new Scanner(System.in);
+    static String piece = "";
+    static int x=0, y=0;
+    static Piece p;
 
     public static void main(String[] args) {
-        Player w_player = new Player();
-        Player b_player = new Player();
-        Scanner input = new Scanner(System.in);
-
-        String piece = "";
-        System.out.println("please choose your piece: ");
-        System.out.println("1.Bee  2.Ant  3.Beetle  4.Locust  5.Spider  6.Move");
-        if(w_player.Total_piece ==8){
-            if (w_player.beeCounter == 0) {
-                 piece = input.next();
-            } else {
-                piece = "B";
-            }
-        } else {
-             piece = input.next();
+        while (!isGameEnded()){
+            withePlayerTurn();
         }
-
-        int x=0, y=0;
-        if(w_player.Total_piece!=11){
-            System.out.println("enter the coordinates of your piece:");
-            x = input.nextInt();
-            y = input.nextInt();
-        }
-
-        switch (piece){
-            case "B":
-                if(w_player.beeCounter != 0) {
-                    if(w_player.Total_piece==11){
-                        firstMove(new Bee(10, 10));
-                    } else {
-                        if(addChecker(x, y)){
-
-                        }
-                    }
-                    w_player.Total_piece--;
-                    w_player.beeCounter = 0;
-                }
-                break;
-            case "a":
-                if(w_player.antCounter != 0) {
-                    if(w_player.Total_piece==11){
-                        firstMove(new Ant(10, 10));
-                    }
-                    w_player.Total_piece--;
-                    w_player.antCounter -= 1;
-                }
-                break;
-            case "b":
-                if(w_player.beetleCounter != 0) {
-                    if(w_player.Total_piece==11){
-                        firstMove(new Beetle(10, 10));
-                    }
-                    w_player.Total_piece--;
-                    w_player.beetleCounter -= 1;
-                }
-                break;
-            case "l":
-                if(w_player.locustCounter != 0) {
-                    if(w_player.Total_piece==11){
-                        firstMove(new Locust(10, 10));
-                    }
-                    w_player.Total_piece--;
-                    w_player.locustCounter -= 1;
-                }
-                break;
-            case "s":
-                if(w_player.spiderCounter != 0) {
-                    if(w_player.Total_piece==11){
-                        firstMove(new Spider(10, 10));
-                    }
-                    w_player.Total_piece--;
-                    w_player.spiderCounter -= 1;
-                }
-                break;
-            case "Move":
-                System.out.println("enter the coordinates of your piece:");
-                x = input.nextInt();
-                y = input.nextInt();
-                Piece p=boarder.pieces[x][y];
-                while (!hiveDestroy(x, y)){
-                    System.out.println("you cant move this piece");
-                    System.out.println("enter the coordinates of your piece:");
-                    x = input.nextInt();
-                    y = input.nextInt();
-                    p=boarder.pieces[x][y];
-                }
-                while (p.player != Players.WHITE){
-                    System.out.println("this coordinate doesnt belong to your pieces.\n" +
-                            "enter new coordinates:");
-                    x = input.nextInt();
-                    y = input.nextInt();
-                    p=boarder.pieces[x][y];
-                }
-
-                if(p instanceof Bee){
-                    System.out.println("enter new coordinates: ");
-                    x = input.nextInt();
-                    y = input.nextInt();
-                    if(boarder.pieces[x][y]!=null){
-                        if(moveChecker(x, y, Players.WHITE)) {
-                            boarder.pieces[x][y] = p;
-                        }
-                    }
-                } else if(p instanceof Beetle){
-                    System.out.println("enter new coordinates: ");
-                    x = input.nextInt();
-                    y = input.nextInt();
-                    if(boarder.pieces[x][y]!=null){
-                        if(moveChecker(x, y, Players.WHITE)) {
-                            boarder.pieces[x][y] = p;
-                        }
-                    }
-                } else if(p instanceof Locust){
-                    System.out.println("enter new coordinates: ");
-                    x = input.nextInt();
-                    y = input.nextInt();
-                    if(boarder.pieces[x][y]!=null){
-                        if(moveChecker(x, y, Players.WHITE)) {
-                            boarder.pieces[x][y] = p;
-                        }
-                    }
-                } else if(p instanceof Spider){
-                    System.out.println("enter new coordinates: ");
-                    x = input.nextInt();
-                    y = input.nextInt();
-                    if(boarder.pieces[x][y]!=null){
-                        if(moveChecker(x, y, Players.WHITE)) {
-                            boarder.pieces[x][y] = p;
-                        }
-                    }
-                } else if(p instanceof Ant){
-                    System.out.println("enter new coordinates: ");
-                    x = input.nextInt();
-                    y = input.nextInt();
-                    if(boarder.pieces[x][y]!=null){
-                        if(moveChecker(x, y, Players.WHITE)) {
-                            boarder.pieces[x][y] = p;
-                        }
-                    }
-                }
-            default:
-                break;
-        }
-        boarder.printBorder(boarder);
     }
 
+    //add first piece in the middle of border
+    public static void whiteFirstMove(Piece piece){
+        boarder.currentPiece=piece;
+        boarder.pieces[10][10]=piece;
+    }
+
+    public static void blackFirstMove(int i, int j, Piece piece){
+        boarder.currentPiece=piece;
+        boarder.pieces[i][j]=piece;
+    }
+
+    //check if hive gonna get destroy
     public static boolean hiveDestroy(int x, int y){
         if(boarder.pieces[x-2][y]!=null && boarder.pieces[x+2][y]!=null && boarder.pieces[x+1][y+1]!=null
                 && boarder.pieces[x-1][y+1]!=null && boarder.pieces[x-1][y-1]!=null && boarder.pieces[x+1][y-1]!=null){
@@ -173,6 +37,7 @@ public class Game {
         return true;
     }
 
+    //check if new piece is part of a hive
     public static boolean addChecker(int x, int y){
         if(boarder.pieces[x-2][y]!=null && boarder.pieces[x+2][y]!=null && boarder.pieces[x+1][y+1]!=null
                 && boarder.pieces[x-1][y+1]!=null && boarder.pieces[x-1][y-1]!=null && boarder.pieces[x+1][y-1]!=null){
@@ -181,6 +46,7 @@ public class Game {
         return true;
     }
 
+    //check if adding new piece isn't close to enemy pieces
     public static boolean moveChecker(int x, int y, Players p){
         if(p==Players.WHITE){
             if(boarder.pieces[x-2][y]!=null){
@@ -246,5 +112,355 @@ public class Game {
             }
         }
         return true;
+    }
+
+    public static void withePlayerTurn(){
+        System.out.println("white player turn\n");
+        if(w_player.Total_piece==11){
+            System.out.println("please choose your piece: ");
+            System.out.println("1.Bee  2.Ant  3.Beetle  4.Locust  5.Spider");
+            piece = input.next();
+        } else if(w_player.Total_piece==0){
+            System.out.println("you are ran out of pieces, just move one piece");
+        } else if(w_player.Total_piece==8){
+            if (w_player.beeCounter == 0){
+                System.out.println("please choose your piece: ");
+                System.out.println("1.Bee  2.Ant  3.Beetle  4.Locust  5.Spider  6.Move");
+                piece = input.next();
+            } else {
+                System.out.println("you should add Bee");
+                piece = "B";
+            }
+        } else {
+            System.out.println("please choose your piece: ");
+            System.out.println("1.Bee  2.Ant  3.Beetle  4.Locust  5.Spider  6.Move");
+            piece = input.next();
+        }
+
+        if(w_player.Total_piece!=11){
+            if(piece.equals("m")){
+                System.out.println("enter the coordinates of your piece:");
+            } else {
+                System.out.println("enter the coordinates you want to add yor piece to:");
+            }
+            x = input.nextInt();
+            y = input.nextInt();
+        }
+
+        switch (piece){
+            case "B":
+                if(w_player.beeCounter != 0) {
+                    if(w_player.Total_piece==11){
+                        whiteFirstMove(new Bee(10, 10));
+                    }
+                    w_player.Total_piece--;
+                    w_player.beeCounter = 0;
+                }
+                break;
+            case "a":
+                if(w_player.antCounter != 0) {
+                    if(w_player.Total_piece==11){
+                        whiteFirstMove(new Ant(10, 10));
+                    }
+                    w_player.Total_piece--;
+                    w_player.antCounter -= 1;
+                }
+                break;
+            case "b":
+                if(w_player.beetleCounter != 0) {
+                    if(w_player.Total_piece==11){
+                        whiteFirstMove(new Beetle(10, 10));
+                    }
+                    w_player.Total_piece--;
+                    w_player.beetleCounter -= 1;
+                }
+                break;
+            case "l":
+                if(w_player.locustCounter != 0) {
+                    if(w_player.Total_piece==11){
+                        whiteFirstMove(new Locust(10, 10));
+                    }
+                    w_player.Total_piece--;
+                    w_player.locustCounter -= 1;
+                }
+                break;
+            case "s":
+                if(w_player.spiderCounter != 0) {
+                    if(w_player.Total_piece==11){
+                        whiteFirstMove(new Spider(10, 10));
+                    }
+                    w_player.Total_piece--;
+                    w_player.spiderCounter -= 1;
+                }
+                break;
+            case "m":
+                p=boarder.pieces[x][y];
+
+                while (!hiveDestroy(x, y)){
+                    System.out.println("you cant move this piece");
+                    System.out.println("enter the coordinates of your piece:");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    p=boarder.pieces[x][y];
+                }
+
+                while (p.player != Players.WHITE){
+                    System.out.println("this coordinate doesnt belong to your pieces.\n" +
+                            "enter new coordinates:");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    p=boarder.pieces[x][y];
+                }
+
+                if(p instanceof Bee){
+                    System.out.println("enter new coordinates: ");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    while (boarder.pieces[x][y]==null){
+                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+                    boarder.pieces[x][y]=p;
+                } else if(p instanceof Beetle){
+                    System.out.println("enter new coordinates: ");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    boarder.pieces[x][y]=p;
+                } else if(p instanceof Locust){
+                    System.out.println("enter new coordinates: ");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    while (boarder.pieces[x][y]==null){
+                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+                    boarder.pieces[x][y]=p;
+                } else if(p instanceof Spider){
+                    System.out.println("enter new coordinates: ");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    while (boarder.pieces[x][y]==null){
+                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+                    boarder.pieces[x][y]=p;
+                } else if(p instanceof Ant){
+                    System.out.println("enter new coordinates: ");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    while (boarder.pieces[x][y]==null){
+                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+                    boarder.pieces[x][y]=p;
+                }
+                break;
+            default:
+                break;
+        }
+        boarder.printBorder(boarder);
+        blackPlayerTurn();
+
+    }
+
+    public static void blackPlayerTurn(){
+        System.out.println("black player turn\n");
+        if(b_player.Total_piece==11){
+            System.out.println("please choose your piece: ");
+            System.out.println("1.Bee  2.Ant  3.Beetle  4.Locust  5.Spider");
+            piece = input.next();
+        } else if(b_player.Total_piece==0){
+            System.out.println("you are ran out of pieces, just move one piece");
+        } else if(b_player.Total_piece==8){
+            if (b_player.beeCounter == 0){
+                System.out.println("please choose your piece: ");
+                System.out.println("1.Bee  2.Ant  3.Beetle  4.Locust  5.Spider  6.Move");
+                piece = input.next();
+            } else {
+                System.out.println("you should add Bee");
+                piece = "B";
+            }
+        } else {
+            System.out.println("please choose your piece: ");
+            System.out.println("1.Bee  2.Ant  3.Beetle  4.Locust  5.Spider  6.Move");
+            piece = input.next();
+        }
+
+        if(piece.equals("m")){
+            System.out.println("enter the coordinates of your piece:");
+        } else {
+            System.out.println("enter the coordinates you want to add yor piece to:");
+        }
+        x = input.nextInt();
+        y = input.nextInt();
+
+        switch (piece){
+            case "B":
+                if(b_player.beeCounter != 0) {
+                    if(b_player.Total_piece==11){
+                        boolean cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
+                                (x==9 && y==9) || (x==11 && y==9));
+                        while (!cond){
+                            System.out.println("you should add your piece next to the hive.\nenter new coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                            cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
+                                    (x==9 && y==9) || (x==11 && y==9));
+                        }
+                        blackFirstMove(x, y, new Bee(x, y));
+                    }
+                    b_player.Total_piece--;
+                    b_player.beeCounter = 0;
+                }
+                break;
+            case "a":
+                if(b_player.antCounter != 0) {
+                    if(b_player.Total_piece==11){
+                        boolean cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
+                                (x==9 && y==9) || (x==11 && y==9));
+                        while (!cond){
+                            System.out.println("you should add your piece next to the hive.\nenter new coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                            cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
+                                    (x==9 && y==9) || (x==11 && y==9));
+                        }
+                        blackFirstMove(x, y, new Ant(x, y));
+                    }
+                    b_player.Total_piece--;
+                    b_player.antCounter -= 1;
+                }
+                break;
+            case "b":
+                if(b_player.beetleCounter != 0) {
+                    if(b_player.Total_piece==11){
+                        boolean cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
+                                (x==9 && y==9) || (x==11 && y==9));
+                        while (!cond){
+                            System.out.println("you should add your piece next to the hive.\nenter new coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                            cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
+                                    (x==9 && y==9) || (x==11 && y==9));
+                        }
+                        blackFirstMove(x, y, new Beetle(x, y));
+                    }
+                    b_player.Total_piece--;
+                    b_player.beetleCounter -= 1;
+                }
+                break;
+            case "l":
+                if(b_player.locustCounter != 0) {
+                    if(b_player.Total_piece==11){
+                        boolean cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
+                                (x==9 && y==9) || (x==11 && y==9));
+                        while (!cond){
+                            System.out.println("you should add your piece next to the hive.\nenter new coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                            cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
+                                    (x==9 && y==9) || (x==11 && y==9));
+                        }
+                        blackFirstMove(x, y, new Locust(x, y));
+                    }
+                    b_player.Total_piece--;
+                    b_player.locustCounter -= 1;
+                }
+                break;
+            case "s":
+                if(b_player.spiderCounter != 0) {
+                    if(b_player.Total_piece==11){
+                        boolean cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
+                                (x==9 && y==9) || (x==11 && y==9));
+                        while (!cond){
+                            System.out.println("you should add your piece next to the hive.\nenter new coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                            cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
+                                    (x==9 && y==9) || (x==11 && y==9));
+                        }
+                        blackFirstMove(x, y, new Spider(x, y));
+                    }
+                    b_player.Total_piece--;
+                    b_player.spiderCounter -= 1;
+                }
+                break;
+            case "m":
+                p=boarder.pieces[x][y];
+
+                while (!hiveDestroy(x, y)){
+                    System.out.println("you cant move this piece");
+                    System.out.println("enter the coordinates of your piece:");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    p=boarder.pieces[x][y];
+                }
+
+                while (p.player != Players.BLACK){
+                    System.out.println("this coordinate doesnt belong to your pieces.\n" +
+                            "enter new coordinates:");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    p=boarder.pieces[x][y];
+                }
+                if(p instanceof Bee){
+                    System.out.println("enter new coordinates: ");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    while (boarder.pieces[x][y]==null){
+                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+                    boarder.pieces[x][y]=p;
+                } else if(p instanceof Beetle){
+                    System.out.println("enter new coordinates: ");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    boarder.pieces[x][y]=p;
+                } else if(p instanceof Locust){
+                    System.out.println("enter new coordinates: ");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    while (boarder.pieces[x][y]==null){
+                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+                    boarder.pieces[x][y]=p;
+                } else if(p instanceof Spider){
+                    System.out.println("enter new coordinates: ");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    while (boarder.pieces[x][y]==null){
+                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+                    boarder.pieces[x][y]=p;
+                } else if(p instanceof Ant){
+                    System.out.println("enter new coordinates: ");
+                    x = input.nextInt();
+                    y = input.nextInt();
+                    while (boarder.pieces[x][y]==null){
+                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+                    boarder.pieces[x][y]=p;
+                }
+                break;
+            default:
+                break;
+        }
+        boarder.printBorder(boarder);
+    }
+
+    public static boolean isGameEnded(){
+        return false;
     }
 }

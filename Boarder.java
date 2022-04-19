@@ -41,6 +41,7 @@ public class Boarder {
         }
     }
 
+
     public void printBorder(Boarder boarder){
         for (int i = 0; i < col; i++) {
             System.out.print(" ");
