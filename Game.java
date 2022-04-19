@@ -22,7 +22,7 @@ public class Game {
         boarder.pieces[i][j]=piece;
     }
 
-    //check if hive gonna get destroy
+    //check if hive gonna get destroy bu movement
     public static boolean hiveDestroy(int x, int y){
         // TODO
         if(boarder.pieces[x-2][y]!=null && boarder.pieces[x+2][y]!=null && boarder.pieces[x+1][y+1]!=null
@@ -506,6 +506,38 @@ public class Game {
     }
 
     public static boolean isGameEnded(){
-        return false;
+        Bee w_bee=new Bee(0, 0, Players.WHITE), b_bee=new Bee(0, 0, Players.BLACK);
+        boolean w_existence=false, b_existence=false;
+        if(b_player.beeCounter!=0 || w_player.beeCounter!=0){
+            return false;
+        }
+        for(int i=0; i<Boarder.col; i++){
+            for(int j=0; j<Boarder.row; j++){
+                if(boarder.pieces[i][j] instanceof Bee){
+                    if(boarder.pieces[i][j].player==Players.WHITE){
+                        w_bee=(Bee) boarder.pieces[i][j];
+                        w_existence=true;
+                    } else {
+                        b_bee=(Bee) boarder.pieces[i][j];
+                        b_existence=true;
+                    }
+                }
+            }
+        }
+        if(w_existence){
+            for(int i=0; i<6; i++){
+                if(w_bee.spaces[i]==0){
+                    return false;
+                }
+            }
+        }
+        if(b_existence){
+            for(int i=0; i<6; i++){
+                if(b_bee.spaces[i]==0){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
