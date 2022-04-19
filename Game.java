@@ -17,98 +17,6 @@ public class Game {
         }
     }
 
-    public static void addNewPiece(int i, int j, Piece piece){
-        boarder.currentPiece=piece;
-        boarder.pieces[i][j]=piece;
-    }
-
-    //check if hive gonna get destroy bu movement
-    public static boolean hiveDestroy(int x, int y){
-        // TODO
-        if(boarder.pieces[x-2][y]!=null && boarder.pieces[x+2][y]!=null && boarder.pieces[x+1][y+1]!=null
-                && boarder.pieces[x-1][y+1]!=null && boarder.pieces[x-1][y-1]!=null && boarder.pieces[x+1][y-1]!=null){
-            return false;
-        }
-        return true;
-    }
-
-    //check if new piece is part of a hive
-    public static boolean addChecker(int x, int y){
-        if(boarder.pieces[x-2][y]==null && boarder.pieces[x+2][y]==null && boarder.pieces[x+1][y+1]==null
-                && boarder.pieces[x-1][y+1]==null && boarder.pieces[x-1][y-1]==null && boarder.pieces[x+1][y-1]==null){
-            return false;
-        }
-        return true;
-    }
-
-    //check if adding new piece isn't close to enemy pieces
-    public static boolean addColorChecker(int x, int y, Players p){
-        if(p==Players.WHITE){
-            if(boarder.pieces[x-2][y]!=null){
-                if(boarder.pieces[x-2][y].player==Players.BLACK){
-                    return false;
-                }
-            }
-            if(boarder.pieces[x+2][y]!=null){
-                if(boarder.pieces[x+2][y].player==Players.BLACK){
-                    return false;
-                }
-            }
-            if(boarder.pieces[x+1][y+1]!=null){
-                if(boarder.pieces[x+1][y+1].player==Players.BLACK){
-                    return false;
-                }
-            }
-            if(boarder.pieces[x-1][y+1]!=null){
-                if(boarder.pieces[x-1][y+1].player==Players.BLACK){
-                    return false;
-                }
-            }
-            if(boarder.pieces[x-1][y-1]!=null){
-                if(boarder.pieces[x-1][y-1].player==Players.BLACK){
-                    return false;
-                }
-            }
-            if(boarder.pieces[x+1][y-1]!=null){
-                if(boarder.pieces[x+1][y-1].player==Players.BLACK){
-                    return false;
-                }
-            }
-        } else {
-            if(boarder.pieces[x-2][y]!=null){
-                if(boarder.pieces[x-2][y].player==Players.WHITE){
-                    return false;
-                }
-            }
-            if(boarder.pieces[x+2][y]!=null){
-                if(boarder.pieces[x+2][y].player==Players.WHITE){
-                    return false;
-                }
-            }
-            if(boarder.pieces[x+1][y+1]!=null){
-                if(boarder.pieces[x+1][y+1].player==Players.WHITE){
-                    return false;
-                }
-            }
-            if(boarder.pieces[x-1][y+1]!=null){
-                if(boarder.pieces[x-1][y+1].player==Players.WHITE){
-                    return false;
-                }
-            }
-            if(boarder.pieces[x-1][y-1]!=null){
-                if(boarder.pieces[x-1][y-1].player==Players.WHITE){
-                    return false;
-                }
-            }
-            if(boarder.pieces[x+1][y-1]!=null){
-                if(boarder.pieces[x+1][y-1].player==Players.WHITE){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     public static void withePlayerTurn(){
         System.out.println("white player turn\n");
         if(w_player.Total_piece==11){
@@ -293,8 +201,9 @@ public class Game {
                 break;
         }
         boarder.printBorder(boarder);
-        blackPlayerTurn();
-
+        if(!isGameEnded()){
+            blackPlayerTurn();
+        }
     }
 
     public static void blackPlayerTurn(){
@@ -503,6 +412,126 @@ public class Game {
                 break;
         }
         boarder.printBorder(boarder);
+    }
+
+    public static void addNewPiece(int i, int j, Piece piece){
+        boarder.currentPiece=piece;
+        boarder.pieces[i][j]=piece;
+        changeSpacesCondition(i, j);
+    }
+
+    //check if hive gonna get destroy bu movement
+    public static boolean hiveDestroy(int x, int y){
+        // TODO
+        if(boarder.pieces[x-2][y]!=null && boarder.pieces[x+2][y]!=null && boarder.pieces[x+1][y+1]!=null
+                && boarder.pieces[x-1][y+1]!=null && boarder.pieces[x-1][y-1]!=null && boarder.pieces[x+1][y-1]!=null){
+            return false;
+        }
+        return true;
+    }
+
+    //check if new piece is part of a hive
+    public static boolean addChecker(int x, int y){
+        if(boarder.pieces[x-2][y]==null && boarder.pieces[x+2][y]==null && boarder.pieces[x+1][y+1]==null
+                && boarder.pieces[x-1][y+1]==null && boarder.pieces[x-1][y-1]==null && boarder.pieces[x+1][y-1]==null){
+            return false;
+        }
+        return true;
+    }
+
+    //check if adding new piece isn't close to enemy pieces
+    public static boolean addColorChecker(int x, int y, Players p){
+        if(p==Players.WHITE){
+            if(boarder.pieces[x-2][y]!=null){
+                if(boarder.pieces[x-2][y].player==Players.BLACK){
+                    return false;
+                }
+            }
+            if(boarder.pieces[x+2][y]!=null){
+                if(boarder.pieces[x+2][y].player==Players.BLACK){
+                    return false;
+                }
+            }
+            if(boarder.pieces[x+1][y+1]!=null){
+                if(boarder.pieces[x+1][y+1].player==Players.BLACK){
+                    return false;
+                }
+            }
+            if(boarder.pieces[x-1][y+1]!=null){
+                if(boarder.pieces[x-1][y+1].player==Players.BLACK){
+                    return false;
+                }
+            }
+            if(boarder.pieces[x-1][y-1]!=null){
+                if(boarder.pieces[x-1][y-1].player==Players.BLACK){
+                    return false;
+                }
+            }
+            if(boarder.pieces[x+1][y-1]!=null){
+                if(boarder.pieces[x+1][y-1].player==Players.BLACK){
+                    return false;
+                }
+            }
+        } else {
+            if(boarder.pieces[x-2][y]!=null){
+                if(boarder.pieces[x-2][y].player==Players.WHITE){
+                    return false;
+                }
+            }
+            if(boarder.pieces[x+2][y]!=null){
+                if(boarder.pieces[x+2][y].player==Players.WHITE){
+                    return false;
+                }
+            }
+            if(boarder.pieces[x+1][y+1]!=null){
+                if(boarder.pieces[x+1][y+1].player==Players.WHITE){
+                    return false;
+                }
+            }
+            if(boarder.pieces[x-1][y+1]!=null){
+                if(boarder.pieces[x-1][y+1].player==Players.WHITE){
+                    return false;
+                }
+            }
+            if(boarder.pieces[x-1][y-1]!=null){
+                if(boarder.pieces[x-1][y-1].player==Players.WHITE){
+                    return false;
+                }
+            }
+            if(boarder.pieces[x+1][y-1]!=null){
+                if(boarder.pieces[x+1][y-1].player==Players.WHITE){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static void changeSpacesCondition(int x, int y){
+        if(boarder.pieces[x-2][y]!=null){
+            boarder.pieces[x][y].spaces[0]=1;
+            boarder.pieces[x-2][y].spaces[3]=1;
+        }
+        if(boarder.pieces[x+2][y]!=null){
+            boarder.pieces[x][y].spaces[3]=1;
+            boarder.pieces[x+2][y].spaces[0]=1;
+        }
+        if(boarder.pieces[x+1][y+1]!=null){
+            boarder.pieces[x][y].spaces[2]=1;
+            boarder.pieces[x+1][y+1].spaces[5]=1;
+        }
+        if(boarder.pieces[x-1][y+1]!=null){
+            boarder.pieces[x][y].spaces[1]=1;
+            boarder.pieces[x-1][y+1].spaces[4]=1;
+        }
+        if(boarder.pieces[x-1][y-1]!=null){
+            boarder.pieces[x][y].spaces[5]=1;
+            boarder.pieces[x-1][y-1].spaces[2]=1;
+        }
+        if(boarder.pieces[x+1][y-1]!=null){
+            boarder.pieces[x][y].spaces[4]=1;
+            boarder.pieces[x+1][y-1].spaces[1]=1;
+        }
     }
 
     public static boolean isGameEnded(){
