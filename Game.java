@@ -13,15 +13,20 @@ public class Game {
 
     public static void main(String[] args) {
         while (!isGameEnded()){
-            withePlayerTurn();
+            whitePlayerTurn();
         }
     }
 
-    public static void withePlayerTurn(){
+    public static void whitePlayerTurn(){
         System.out.println("white player turn\n");
-        if(w_player.Total_piece==11){
+        if(w_player.Total_piece>=9){
             System.out.println("please choose your piece: ");
-            System.out.println("1.Bee  2.Ant  3.Beetle  4.Locust  5.Spider");
+            System.out.print("1.Bee  2.Ant  3.Beetle  4.Locust  5.Spider");
+            if(w_player.beeCounter != 0){
+                System.out.println("\nyou cant move pieces before adding Bee");
+            } else {
+                System.out.println("  6.Move");
+            }
             piece = input.next();
         } else if(w_player.Total_piece==0){
             System.out.println("you are ran out of pieces, just move one piece");
@@ -154,7 +159,7 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]==null){
+                    while (boarder.pieces[x][y]!=null){
                         System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
                         x = input.nextInt();
                         y = input.nextInt();
@@ -164,12 +169,17 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    boarder.pieces[x][y]=p;
+                    if(boarder.pieces[x][y]!=null){
+                        boarder.pieces[x][y].isExtraBeetleHere=true;
+                        boarder.pieces[x][y].extraBeetle=(Beetle) p;
+                    } else {
+                        boarder.pieces[x][y]=p;
+                    }
                 } else if(p instanceof Locust){
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]==null){
+                    while (boarder.pieces[x][y]!=null){
                         System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
                         x = input.nextInt();
                         y = input.nextInt();
@@ -179,7 +189,7 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]==null){
+                    while (boarder.pieces[x][y]!=null){
                         System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
                         x = input.nextInt();
                         y = input.nextInt();
@@ -189,7 +199,7 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]==null){
+                    while (boarder.pieces[x][y]!=null){
                         System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
                         x = input.nextInt();
                         y = input.nextInt();
@@ -208,9 +218,14 @@ public class Game {
 
     public static void blackPlayerTurn(){
         System.out.println("black player turn\n");
-        if(b_player.Total_piece==11){
+        if(b_player.Total_piece>=9){
             System.out.println("please choose your piece: ");
-            System.out.println("1.Bee  2.Ant  3.Beetle  4.Locust  5.Spider");
+            System.out.print("1.Bee  2.Ant  3.Beetle  4.Locust  5.Spider");
+            if(b_player.beeCounter != 0){
+                System.out.println("\nyou cant move pieces before adding Bee");
+            } else {
+                System.out.println("  6.Move");
+            }
             piece = input.next();
         } else if(b_player.Total_piece==0){
             System.out.println("you are ran out of pieces, just move one piece");
@@ -361,11 +376,12 @@ public class Game {
                     y = input.nextInt();
                     p=boarder.pieces[x][y];
                 }
+
                 if(p instanceof Bee){
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]==null){
+                    while (boarder.pieces[x][y]!=null){
                         System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
                         x = input.nextInt();
                         y = input.nextInt();
@@ -375,12 +391,17 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    boarder.pieces[x][y]=p;
+                    if(boarder.pieces[x][y]!=null){
+                        boarder.pieces[x][y].isExtraBeetleHere=true;
+                        boarder.pieces[x][y].extraBeetle=(Beetle) p;
+                    } else {
+                        boarder.pieces[x][y]=p;
+                    }
                 } else if(p instanceof Locust){
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]==null){
+                    while (boarder.pieces[x][y]!=null){
                         System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
                         x = input.nextInt();
                         y = input.nextInt();
@@ -390,7 +411,7 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]==null){
+                    while (boarder.pieces[x][y]!=null){
                         System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
                         x = input.nextInt();
                         y = input.nextInt();
@@ -400,7 +421,7 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]==null){
+                    while (boarder.pieces[x][y]!=null){
                         System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
                         x = input.nextInt();
                         y = input.nextInt();
