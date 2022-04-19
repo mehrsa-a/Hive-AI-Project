@@ -1,7 +1,9 @@
+import utils.Players;
+
 public class Ant extends Piece{
 
-    public Ant(int x, int y) {
-        super(x, y);
+    public Ant(int x, int y, Players player) {
+        super(x, y, player);
         this.name = "a";
     }
 

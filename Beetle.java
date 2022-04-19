@@ -1,8 +1,10 @@
+import utils.Players;
+
 public class Beetle extends Piece{
 
 
-    public Beetle(int x, int y) {
-        super(x, y);
+    public Beetle(int x, int y, Players player) {
+        super(x, y, player);
         this.name = "b";
     }
 

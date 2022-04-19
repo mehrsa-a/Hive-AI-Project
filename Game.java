@@ -17,19 +17,14 @@ public class Game {
         }
     }
 
-    //add first piece in the middle of border
-    public static void whiteFirstMove(Piece piece){
-        boarder.currentPiece=piece;
-        boarder.pieces[10][10]=piece;
-    }
-
-    public static void blackFirstMove(int i, int j, Piece piece){
+    public static void addNewPiece(int i, int j, Piece piece){
         boarder.currentPiece=piece;
         boarder.pieces[i][j]=piece;
     }
 
     //check if hive gonna get destroy
     public static boolean hiveDestroy(int x, int y){
+        // TODO
         if(boarder.pieces[x-2][y]!=null && boarder.pieces[x+2][y]!=null && boarder.pieces[x+1][y+1]!=null
                 && boarder.pieces[x-1][y+1]!=null && boarder.pieces[x-1][y-1]!=null && boarder.pieces[x+1][y-1]!=null){
             return false;
@@ -39,15 +34,15 @@ public class Game {
 
     //check if new piece is part of a hive
     public static boolean addChecker(int x, int y){
-        if(boarder.pieces[x-2][y]!=null && boarder.pieces[x+2][y]!=null && boarder.pieces[x+1][y+1]!=null
-                && boarder.pieces[x-1][y+1]!=null && boarder.pieces[x-1][y-1]!=null && boarder.pieces[x+1][y-1]!=null){
+        if(boarder.pieces[x-2][y]==null && boarder.pieces[x+2][y]==null && boarder.pieces[x+1][y+1]==null
+                && boarder.pieces[x-1][y+1]==null && boarder.pieces[x-1][y-1]==null && boarder.pieces[x+1][y-1]==null){
             return false;
         }
         return true;
     }
 
     //check if adding new piece isn't close to enemy pieces
-    public static boolean moveChecker(int x, int y, Players p){
+    public static boolean addColorChecker(int x, int y, Players p){
         if(p==Players.WHITE){
             if(boarder.pieces[x-2][y]!=null){
                 if(boarder.pieces[x-2][y].player==Players.BLACK){
@@ -151,7 +146,14 @@ public class Game {
             case "B":
                 if(w_player.beeCounter != 0) {
                     if(w_player.Total_piece==11){
-                        whiteFirstMove(new Bee(10, 10));
+                        addNewPiece(10, 10, new Bee(10, 10, Players.WHITE));
+                    } else {
+                        while (!addChecker(x, y) || !addColorChecker(x, y, Players.WHITE)){
+                            System.out.println("you cant add your piece here.\nchoose another coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                        }
+                        addNewPiece(x, y, new Bee(x, y, Players.WHITE));
                     }
                     w_player.Total_piece--;
                     w_player.beeCounter = 0;
@@ -160,7 +162,14 @@ public class Game {
             case "a":
                 if(w_player.antCounter != 0) {
                     if(w_player.Total_piece==11){
-                        whiteFirstMove(new Ant(10, 10));
+                        addNewPiece(10, 10, new Ant(10, 10, Players.WHITE));
+                    } else {
+                        while (!addChecker(x, y) || !addColorChecker(x, y, Players.WHITE)){
+                            System.out.println("you cant add your piece here.\nchoose another coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                        }
+                        addNewPiece(x, y, new Ant(x, y, Players.WHITE));
                     }
                     w_player.Total_piece--;
                     w_player.antCounter -= 1;
@@ -169,7 +178,14 @@ public class Game {
             case "b":
                 if(w_player.beetleCounter != 0) {
                     if(w_player.Total_piece==11){
-                        whiteFirstMove(new Beetle(10, 10));
+                        addNewPiece(10, 10, new Beetle(10, 10, Players.WHITE));
+                    } else {
+                        while (!addChecker(x, y) || !addColorChecker(x, y, Players.WHITE)){
+                            System.out.println("you cant add your piece here.\nchoose another coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                        }
+                        addNewPiece(x, y, new Beetle(x, y, Players.WHITE));
                     }
                     w_player.Total_piece--;
                     w_player.beetleCounter -= 1;
@@ -178,7 +194,14 @@ public class Game {
             case "l":
                 if(w_player.locustCounter != 0) {
                     if(w_player.Total_piece==11){
-                        whiteFirstMove(new Locust(10, 10));
+                        addNewPiece(10, 10, new Locust(10, 10, Players.WHITE));
+                    } else {
+                        while (!addChecker(x, y) || !addColorChecker(x, y, Players.WHITE)){
+                            System.out.println("you cant add your piece here.\nchoose another coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                        }
+                        addNewPiece(x, y, new Locust(x, y, Players.WHITE));
                     }
                     w_player.Total_piece--;
                     w_player.locustCounter -= 1;
@@ -187,7 +210,14 @@ public class Game {
             case "s":
                 if(w_player.spiderCounter != 0) {
                     if(w_player.Total_piece==11){
-                        whiteFirstMove(new Spider(10, 10));
+                        addNewPiece(10, 10, new Spider(10, 10, Players.WHITE));
+                    } else {
+                        while (!addChecker(x, y) || !addColorChecker(x, y, Players.WHITE)){
+                            System.out.println("you cant add your piece here.\nchoose another coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                        }
+                        addNewPiece(x, y, new Spider(x, y, Players.WHITE));
                     }
                     w_player.Total_piece--;
                     w_player.spiderCounter -= 1;
@@ -302,16 +332,19 @@ public class Game {
             case "B":
                 if(b_player.beeCounter != 0) {
                     if(b_player.Total_piece==11){
-                        boolean cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
-                                (x==9 && y==9) || (x==11 && y==9));
-                        while (!cond){
+                        while (!addChecker(x, y)){
                             System.out.println("you should add your piece next to the hive.\nenter new coordinates:");
                             x = input.nextInt();
                             y = input.nextInt();
-                            cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
-                                    (x==9 && y==9) || (x==11 && y==9));
                         }
-                        blackFirstMove(x, y, new Bee(x, y));
+                        addNewPiece(x, y, new Bee(x, y, Players.BLACK));
+                    } else {
+                        while (!addChecker(x, y) || !addColorChecker(x, y, Players.BLACK)){
+                            System.out.println("you cant add your piece here.\nchoose another coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                        }
+                        addNewPiece(x, y, new Bee(x, y, Players.BLACK));
                     }
                     b_player.Total_piece--;
                     b_player.beeCounter = 0;
@@ -320,16 +353,19 @@ public class Game {
             case "a":
                 if(b_player.antCounter != 0) {
                     if(b_player.Total_piece==11){
-                        boolean cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
-                                (x==9 && y==9) || (x==11 && y==9));
-                        while (!cond){
+                        while (!addChecker(x, y)){
                             System.out.println("you should add your piece next to the hive.\nenter new coordinates:");
                             x = input.nextInt();
                             y = input.nextInt();
-                            cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
-                                    (x==9 && y==9) || (x==11 && y==9));
                         }
-                        blackFirstMove(x, y, new Ant(x, y));
+                        addNewPiece(x, y, new Ant(x, y, Players.BLACK));
+                    } else {
+                        while (!addChecker(x, y) || !addColorChecker(x, y, Players.BLACK)){
+                            System.out.println("you cant add your piece here.\nchoose another coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                        }
+                        addNewPiece(x, y, new Ant(x, y, Players.BLACK));
                     }
                     b_player.Total_piece--;
                     b_player.antCounter -= 1;
@@ -338,16 +374,19 @@ public class Game {
             case "b":
                 if(b_player.beetleCounter != 0) {
                     if(b_player.Total_piece==11){
-                        boolean cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
-                                (x==9 && y==9) || (x==11 && y==9));
-                        while (!cond){
+                        while (!addChecker(x, y)){
                             System.out.println("you should add your piece next to the hive.\nenter new coordinates:");
                             x = input.nextInt();
                             y = input.nextInt();
-                            cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
-                                    (x==9 && y==9) || (x==11 && y==9));
                         }
-                        blackFirstMove(x, y, new Beetle(x, y));
+                        addNewPiece(x, y, new Beetle(x, y, Players.BLACK));
+                    } else {
+                        while (!addChecker(x, y) || !addColorChecker(x, y, Players.BLACK)){
+                            System.out.println("you cant add your piece here.\nchoose another coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                        }
+                        addNewPiece(x, y, new Beetle(x, y, Players.BLACK));
                     }
                     b_player.Total_piece--;
                     b_player.beetleCounter -= 1;
@@ -356,16 +395,19 @@ public class Game {
             case "l":
                 if(b_player.locustCounter != 0) {
                     if(b_player.Total_piece==11){
-                        boolean cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
-                                (x==9 && y==9) || (x==11 && y==9));
-                        while (!cond){
+                        while (!addChecker(x, y)){
                             System.out.println("you should add your piece next to the hive.\nenter new coordinates:");
                             x = input.nextInt();
                             y = input.nextInt();
-                            cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
-                                    (x==9 && y==9) || (x==11 && y==9));
                         }
-                        blackFirstMove(x, y, new Locust(x, y));
+                        addNewPiece(x, y, new Locust(x, y, Players.BLACK));
+                    } else {
+                        while (!addChecker(x, y) || !addColorChecker(x, y, Players.BLACK)){
+                            System.out.println("you cant add your piece here.\nchoose another coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                        }
+                        addNewPiece(x, y, new Locust(x, y, Players.BLACK));
                     }
                     b_player.Total_piece--;
                     b_player.locustCounter -= 1;
@@ -374,16 +416,19 @@ public class Game {
             case "s":
                 if(b_player.spiderCounter != 0) {
                     if(b_player.Total_piece==11){
-                        boolean cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
-                                (x==9 && y==9) || (x==11 && y==9));
-                        while (!cond){
+                        while (!addChecker(x, y)){
                             System.out.println("you should add your piece next to the hive.\nenter new coordinates:");
                             x = input.nextInt();
                             y = input.nextInt();
-                            cond=((x==8 && y==10) || (x==12 && y==10) || (x==11 && y==11) || (x==9 && y==11) ||
-                                    (x==9 && y==9) || (x==11 && y==9));
                         }
-                        blackFirstMove(x, y, new Spider(x, y));
+                        addNewPiece(x, y, new Spider(x, y, Players.BLACK));
+                    } else {
+                        while (!addChecker(x, y) || !addColorChecker(x, y, Players.BLACK)){
+                            System.out.println("you cant add your piece here.\nchoose another coordinates:");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                        }
+                        addNewPiece(x, y, new Spider(x, y, Players.BLACK));
                     }
                     b_player.Total_piece--;
                     b_player.spiderCounter -= 1;

@@ -1,3 +1,5 @@
+import utils.Players;
+
 public class Boarder {
     Piece[][] pieces=new Piece[22][22];
     static int col = 10;
@@ -15,7 +17,7 @@ public class Boarder {
                 if(pieces[i*2][j]!=null){
                     currentPiece =  pieces [i*2][j];
                 } else {
-                    currentPiece = new Bee(i*2, j);
+                    currentPiece = new Bee(i*2, j, Players.WHITE);
                     currentPiece.name=" ";
                 }
                 System.out.printf(" %s |", currentPiece.name);
@@ -32,7 +34,7 @@ public class Boarder {
                 if(pieces[i*2+1][j]!=null){
                     currentPiece =  pieces [i*2+1][j];
                 } else {
-                    currentPiece = new Bee(i*2+1, j);
+                    currentPiece = new Bee(i*2+1, j, Players.WHITE);
                     currentPiece.name=" ";
                 }
                 System.out.printf(" %s |", currentPiece.name);
@@ -54,7 +56,7 @@ public class Boarder {
                 if(boarder.pieces[i*2][j*2]!=null){
                     currentPiece =  boarder.pieces [i*2][j*2];
                 } else {
-                    currentPiece = new Bee(i*2, j*2);
+                    currentPiece = new Bee(i*2, j*2, Players.WHITE);
                     currentPiece.name=" ";
                 }
                 System.out.printf(" %s |", currentPiece.name);
@@ -71,7 +73,7 @@ public class Boarder {
                 if(pieces[i*2+1][j*2+1]!=null){
                     currentPiece =  boarder.pieces [i*2+1][j*2+1];
                 } else {
-                    currentPiece = new Bee(i*2, j*2);
+                    currentPiece = new Bee(i*2, j*2, Players.WHITE);
                     currentPiece.name=" ";
                 }
                 System.out.printf(" %s |", currentPiece.name);
