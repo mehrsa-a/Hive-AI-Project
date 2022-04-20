@@ -11,6 +11,30 @@ public class Beetle extends Piece{
     // TODO
     @Override
     public boolean isCoordinateAvailable(int lastX, int lastY, int x, int y) {
-        return true;
+        if(lastX-2==x && lastY==y){
+            return true;
+        }
+
+        if(lastX-1==x && lastY+1==y){
+            return true;
+        }
+
+        if(lastX+1==x && lastY+1==y){
+            return true;
+        }
+
+        if(lastX+2==x && lastY==y){
+            return true;
+        }
+
+        if(lastX+1==x && lastY-1==y){
+            return true;
+        }
+
+        if(lastX-1==x && lastY-1==y){
+            return true;
+        }
+
+        return false;
     }
 }
