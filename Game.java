@@ -247,12 +247,6 @@ public class Game {
                         y = input.nextInt();
                     }
 
-                    while (!isSliding(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
-
                     boarder.pieces[x][y]=p;
                     boarder.pieces[x][y].move(x, y);
 
@@ -567,12 +561,6 @@ public class Game {
                         y = input.nextInt();
                     }
 
-                    while (!isSliding(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
-
                     boarder.pieces[x][y]=p;
                     boarder.pieces[x][y].move(x, y);
                 } else if(p instanceof Spider){
@@ -793,21 +781,40 @@ public class Game {
                 }
             }
         }
+
+        boolean w_flag=false;
+        boolean b_flag=false;
         if(w_existence){
             for(int i=0; i<6; i++){
                 if(w_bee.spaces[i]==0){
-                    return false;
+                    // pass
                 }
             }
+            w_flag=true; // white won
+
         }
         if(b_existence){
             for(int i=0; i<6; i++){
                 if(b_bee.spaces[i]==0){
-                    return false;
+                    //pass
                 }
             }
+            b_flag=true; //black won
         }
-        return true;
+
+        if(w_flag && b_flag){
+            System.out.println("****game ended equal****");
+            return true;
+        }
+        if(w_flag){
+            System.out.println("****white player won****");
+            return true;
+        }
+        if(b_flag){
+            System.out.println("****black player won****");
+            return true;
+        }
+        return false;
     }
 
     // TODO
