@@ -7,8 +7,10 @@ public class Locust extends Piece {
         this.name = "l";
     }
 
+    // TODO
     @Override
-    public void move(int x, int y) {
-
+    public boolean isCoordinateAvailable(int lastX, int lastY, int x, int y) {
+        return true;
     }
+
 }

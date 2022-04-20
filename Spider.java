@@ -7,8 +7,11 @@ public class Spider extends Piece{
         this.name = "s";
     }
 
+    // TODO
     @Override
-    public void move(int x, int y) {
-
+    public boolean isCoordinateAvailable(int lastX, int lastY, int x, int y) {
+        return true;
     }
+
+
 }

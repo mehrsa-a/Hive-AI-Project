@@ -7,8 +7,11 @@ public class Ant extends Piece{
         this.name = "a";
     }
 
+    // TODO
     @Override
-    public void move(int x, int y) {
-
+    public boolean isCoordinateAvailable(int lastX, int lastY, int x, int y) {
+        return true;
     }
+
+
 }

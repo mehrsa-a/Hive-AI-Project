@@ -8,9 +8,9 @@ public class Beetle extends Piece{
         this.name = "b";
     }
 
+    // TODO
     @Override
-    public void move(int x, int y) {
-        this.x += x;
-        this.y += y;
+    public boolean isCoordinateAvailable(int lastX, int lastY, int x, int y) {
+        return true;
     }
 }

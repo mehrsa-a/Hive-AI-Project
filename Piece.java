@@ -18,8 +18,12 @@ public abstract class Piece {
             spaces[i] = 0;
         }
         this.player=player;
-        isExtraBeetleHere=false;
     }
 
-    public abstract void move(int x, int y);
+    public void move(int x, int y){
+        this.x=x;
+        this.y=y;
+    }
+
+    public abstract boolean isCoordinateAvailable(int lastX, int lastY, int x, int y);
 }

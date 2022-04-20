@@ -9,6 +9,7 @@ public class Game {
     static Scanner input = new Scanner(System.in);
     static String piece = "";
     static int x=0, y=0;
+    static int lastX=0, lastY=0;
     static Piece p;
 
     public static void main(String[] args) {
@@ -137,14 +138,33 @@ public class Game {
                 }
                 break;
             case "m":
-                p=boarder.pieces[x][y];
+                if(boarder.pieces[x][y].isExtraBeetleHere){
+                    if(boarder.pieces[x][y].extraBeetle.player!=Players.WHITE){
+                        System.out.println("you cant move this piece because there is a beetle on it");
+                    } else {
+                        p=boarder.pieces[x][y].extraBeetle;
+                        boarder.pieces[x][y].isExtraBeetleHere=false;
+                    }
+                } else {
+                    p=boarder.pieces[x][y];
+                }
+
 
                 while (!hiveDestroy(x, y)){
                     System.out.println("you cant move this piece");
                     System.out.println("enter the coordinates of your piece:");
                     x = input.nextInt();
                     y = input.nextInt();
-                    p=boarder.pieces[x][y];
+                    if(boarder.pieces[x][y].isExtraBeetleHere){
+                        if(boarder.pieces[x][y].extraBeetle.player!=Players.WHITE){
+                            System.out.println("you cant move this piece because there is a beetle on it");
+                        } else {
+                            p=boarder.pieces[x][y].extraBeetle;
+                            boarder.pieces[x][y].isExtraBeetleHere=false;
+                        }
+                    } else {
+                        p=boarder.pieces[x][y];
+                    }
                 }
 
                 while (p.player != Players.WHITE){
@@ -152,8 +172,22 @@ public class Game {
                             "enter new coordinates:");
                     x = input.nextInt();
                     y = input.nextInt();
-                    p=boarder.pieces[x][y];
+                    if(boarder.pieces[x][y].isExtraBeetleHere){
+                        if(boarder.pieces[x][y].extraBeetle.player!=Players.WHITE){
+                            System.out.println("you cant move this piece because there is a beetle on it");
+                        } else {
+                            p=boarder.pieces[x][y].extraBeetle;
+                            boarder.pieces[x][y].isExtraBeetleHere=false;
+                        }
+                    } else {
+                        p=boarder.pieces[x][y];
+                    }
                 }
+
+                freeSpaces(x, y);
+                boarder.pieces[x][y]=null;
+                lastX=x;
+                lastY=y;
 
                 if(p instanceof Bee){
                     System.out.println("enter new coordinates: ");
@@ -164,16 +198,38 @@ public class Game {
                         x = input.nextInt();
                         y = input.nextInt();
                     }
+
+                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
+                    while (!isSliding(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
                     boarder.pieces[x][y]=p;
+                    boarder.pieces[x][y].move(x, y);
+
                 } else if(p instanceof Beetle){
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
                     if(boarder.pieces[x][y]!=null){
+                        while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
+                            System.out.println("this coordinate is not available\nenter new coordinates: ");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                        }
                         boarder.pieces[x][y].isExtraBeetleHere=true;
                         boarder.pieces[x][y].extraBeetle=(Beetle) p;
+                        boarder.pieces[x][y].extraBeetle.move(x, y);
                     } else {
                         boarder.pieces[x][y]=p;
+                        boarder.pieces[x][y].move(x, y);
                     }
                 } else if(p instanceof Locust){
                     System.out.println("enter new coordinates: ");
@@ -184,7 +240,22 @@ public class Game {
                         x = input.nextInt();
                         y = input.nextInt();
                     }
+
+                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
+                    while (!isSliding(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
                     boarder.pieces[x][y]=p;
+                    boarder.pieces[x][y].move(x, y);
+
                 } else if(p instanceof Spider){
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
@@ -194,7 +265,22 @@ public class Game {
                         x = input.nextInt();
                         y = input.nextInt();
                     }
+
+                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
+                    while (!isSliding(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
                     boarder.pieces[x][y]=p;
+                    boarder.pieces[x][y].move(x, y);
+
                 } else if(p instanceof Ant){
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
@@ -204,7 +290,22 @@ public class Game {
                         x = input.nextInt();
                         y = input.nextInt();
                     }
+
+                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
+                    while (!isSliding(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
                     boarder.pieces[x][y]=p;
+                    boarder.pieces[x][y].move(x, y);
+
                 }
                 break;
             default:
@@ -359,14 +460,32 @@ public class Game {
                 }
                 break;
             case "m":
-                p=boarder.pieces[x][y];
+                if(boarder.pieces[x][y].isExtraBeetleHere){
+                    if(boarder.pieces[x][y].extraBeetle.player!=Players.BLACK){
+                        System.out.println("you cant move this piece because there is a beetle on it");
+                    } else {
+                        p=boarder.pieces[x][y].extraBeetle;
+                        boarder.pieces[x][y].isExtraBeetleHere=false;
+                    }
+                } else {
+                    p=boarder.pieces[x][y];
+                }
 
                 while (!hiveDestroy(x, y)){
                     System.out.println("you cant move this piece");
                     System.out.println("enter the coordinates of your piece:");
                     x = input.nextInt();
                     y = input.nextInt();
-                    p=boarder.pieces[x][y];
+                    if(boarder.pieces[x][y].isExtraBeetleHere){
+                        if(boarder.pieces[x][y].extraBeetle.player!=Players.BLACK){
+                            System.out.println("you cant move this piece because there is a beetle on it");
+                        } else {
+                            p=boarder.pieces[x][y].extraBeetle;
+                            boarder.pieces[x][y].isExtraBeetleHere=false;
+                        }
+                    } else {
+                        p=boarder.pieces[x][y];
+                    }
                 }
 
                 while (p.player != Players.BLACK){
@@ -374,8 +493,22 @@ public class Game {
                             "enter new coordinates:");
                     x = input.nextInt();
                     y = input.nextInt();
-                    p=boarder.pieces[x][y];
+                    if(boarder.pieces[x][y].isExtraBeetleHere){
+                        if(boarder.pieces[x][y].extraBeetle.player!=Players.BLACK){
+                            System.out.println("you cant move this piece because there is a beetle on it");
+                        } else {
+                            p=boarder.pieces[x][y].extraBeetle;
+                            boarder.pieces[x][y].isExtraBeetleHere=false;
+                        }
+                    } else {
+                        p=boarder.pieces[x][y];
+                    }
                 }
+
+                freeSpaces(x, y);
+                boarder.pieces[x][y]=null;
+                lastX=x;
+                lastY=y;
 
                 if(p instanceof Bee){
                     System.out.println("enter new coordinates: ");
@@ -386,16 +519,37 @@ public class Game {
                         x = input.nextInt();
                         y = input.nextInt();
                     }
+
+                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
+                    while (!isSliding(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
                     boarder.pieces[x][y]=p;
+                    boarder.pieces[x][y].move(x, y);
                 } else if(p instanceof Beetle){
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
                     if(boarder.pieces[x][y]!=null){
+                        while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
+                            System.out.println("this coordinate is not available\nenter new coordinates: ");
+                            x = input.nextInt();
+                            y = input.nextInt();
+                        }
                         boarder.pieces[x][y].isExtraBeetleHere=true;
                         boarder.pieces[x][y].extraBeetle=(Beetle) p;
+                        boarder.pieces[x][y].extraBeetle.move(x, y);
                     } else {
                         boarder.pieces[x][y]=p;
+                        boarder.pieces[x][y].move(x, y);
                     }
                 } else if(p instanceof Locust){
                     System.out.println("enter new coordinates: ");
@@ -406,7 +560,21 @@ public class Game {
                         x = input.nextInt();
                         y = input.nextInt();
                     }
+
+                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
+                    while (!isSliding(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
                     boarder.pieces[x][y]=p;
+                    boarder.pieces[x][y].move(x, y);
                 } else if(p instanceof Spider){
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
@@ -416,7 +584,21 @@ public class Game {
                         x = input.nextInt();
                         y = input.nextInt();
                     }
+
+                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
+                    while (!isSliding(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
                     boarder.pieces[x][y]=p;
+                    boarder.pieces[x][y].move(x, y);
                 } else if(p instanceof Ant){
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
@@ -426,7 +608,21 @@ public class Game {
                         x = input.nextInt();
                         y = input.nextInt();
                     }
+
+                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
+                    while (!isSliding(lastX, lastY, x, y)){
+                        System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        x = input.nextInt();
+                        y = input.nextInt();
+                    }
+
                     boarder.pieces[x][y]=p;
+                    boarder.pieces[x][y].move(x, y);
                 }
                 break;
             default:
@@ -442,12 +638,8 @@ public class Game {
     }
 
     //check if hive gonna get destroy bu movement
+    // TODO
     public static boolean hiveDestroy(int x, int y){
-        // TODO
-        if(boarder.pieces[x-2][y]!=null && boarder.pieces[x+2][y]!=null && boarder.pieces[x+1][y+1]!=null
-                && boarder.pieces[x-1][y+1]!=null && boarder.pieces[x-1][y-1]!=null && boarder.pieces[x+1][y-1]!=null){
-            return false;
-        }
         return true;
     }
 
@@ -555,6 +747,33 @@ public class Game {
         }
     }
 
+    public static void freeSpaces(int x, int y){
+        if(boarder.pieces[x-2][y]!=null){
+            boarder.pieces[x][y].spaces[0]=0;
+            boarder.pieces[x-2][y].spaces[3]=0;
+        }
+        if(boarder.pieces[x+2][y]!=null){
+            boarder.pieces[x][y].spaces[3]=0;
+            boarder.pieces[x+2][y].spaces[0]=0;
+        }
+        if(boarder.pieces[x+1][y+1]!=null){
+            boarder.pieces[x][y].spaces[2]=0;
+            boarder.pieces[x+1][y+1].spaces[5]=0;
+        }
+        if(boarder.pieces[x-1][y+1]!=null){
+            boarder.pieces[x][y].spaces[1]=0;
+            boarder.pieces[x-1][y+1].spaces[4]=0;
+        }
+        if(boarder.pieces[x-1][y-1]!=null){
+            boarder.pieces[x][y].spaces[5]=0;
+            boarder.pieces[x-1][y-1].spaces[2]=0;
+        }
+        if(boarder.pieces[x+1][y-1]!=null){
+            boarder.pieces[x][y].spaces[4]=0;
+            boarder.pieces[x+1][y-1].spaces[1]=0;
+        }
+    }
+
     public static boolean isGameEnded(){
         Bee w_bee=new Bee(0, 0, Players.WHITE), b_bee=new Bee(0, 0, Players.BLACK);
         boolean w_existence=false, b_existence=false;
@@ -588,6 +807,11 @@ public class Game {
                 }
             }
         }
+        return true;
+    }
+
+    // TODO
+    public static boolean isSliding(int i, int j, int x, int y){
         return true;
     }
 }
