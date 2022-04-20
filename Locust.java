@@ -7,7 +7,6 @@ public class Locust extends Piece {
         this.name = "l";
     }
 
-    // TODO
     @Override
     public boolean isCoordinateAvailable(int lastX, int lastY, int x, int y) {
         while (Game.boarder.pieces[lastX-2][lastY]!=null){

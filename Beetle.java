@@ -8,7 +8,6 @@ public class Beetle extends Piece{
         this.name = "b";
     }
 
-    // TODO
     @Override
     public boolean isCoordinateAvailable(int lastX, int lastY, int x, int y) {
         if(lastX-2==x && lastY==y){

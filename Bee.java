@@ -6,7 +6,6 @@ public class Bee extends Piece{
         this.name = "B";
     }
 
-    // TODO
     @Override
     public boolean isCoordinateAvailable(int lastX, int lastY, int x, int y) {
         if(lastX-2==x && lastY==y){

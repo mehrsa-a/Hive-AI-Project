@@ -213,6 +213,7 @@ public class Game {
 
                     boarder.pieces[x][y]=p;
                     boarder.pieces[x][y].move(x, y);
+                    changeSpacesCondition(x, y);
 
                 } else if(p instanceof Beetle){
                     System.out.println("enter new coordinates: ");
@@ -230,6 +231,7 @@ public class Game {
                     } else {
                         boarder.pieces[x][y]=p;
                         boarder.pieces[x][y].move(x, y);
+                        changeSpacesCondition(x, y);
                     }
                 } else if(p instanceof Locust){
                     System.out.println("enter new coordinates: ");
@@ -249,6 +251,7 @@ public class Game {
 
                     boarder.pieces[x][y]=p;
                     boarder.pieces[x][y].move(x, y);
+                    changeSpacesCondition(x, y);
 
                 } else if(p instanceof Spider){
                     System.out.println("enter new coordinates: ");
@@ -274,6 +277,7 @@ public class Game {
 
                     boarder.pieces[x][y]=p;
                     boarder.pieces[x][y].move(x, y);
+                    changeSpacesCondition(x, y);
 
                 } else if(p instanceof Ant){
                     System.out.println("enter new coordinates: ");
@@ -299,7 +303,7 @@ public class Game {
 
                     boarder.pieces[x][y]=p;
                     boarder.pieces[x][y].move(x, y);
-
+                    changeSpacesCondition(x, y);
                 }
                 break;
             default:
@@ -528,6 +532,7 @@ public class Game {
 
                     boarder.pieces[x][y]=p;
                     boarder.pieces[x][y].move(x, y);
+                    changeSpacesCondition(x, y);
                 } else if(p instanceof Beetle){
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
@@ -544,6 +549,7 @@ public class Game {
                     } else {
                         boarder.pieces[x][y]=p;
                         boarder.pieces[x][y].move(x, y);
+                        changeSpacesCondition(x, y);
                     }
                 } else if(p instanceof Locust){
                     System.out.println("enter new coordinates: ");
@@ -563,6 +569,7 @@ public class Game {
 
                     boarder.pieces[x][y]=p;
                     boarder.pieces[x][y].move(x, y);
+                    changeSpacesCondition(x, y);
                 } else if(p instanceof Spider){
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
@@ -587,6 +594,7 @@ public class Game {
 
                     boarder.pieces[x][y]=p;
                     boarder.pieces[x][y].move(x, y);
+                    changeSpacesCondition(x, y);
                 } else if(p instanceof Ant){
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
@@ -611,6 +619,7 @@ public class Game {
 
                     boarder.pieces[x][y]=p;
                     boarder.pieces[x][y].move(x, y);
+                    changeSpacesCondition(x, y);
                 }
                 break;
             default:

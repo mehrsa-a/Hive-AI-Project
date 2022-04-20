@@ -1,4 +1,5 @@
 import utils.Players;
+import utils.SpaceStates;
 
 public abstract class Piece {
     int x;
