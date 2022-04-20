@@ -60,7 +60,7 @@ public class Game {
             case "B":
                 if(w_player.beeCounter != 0) {
                     if(w_player.Total_piece==11){
-                        addNewPiece(10, 10, new Bee(10, 10, Players.WHITE));
+                        addNewPiece(11, 23, new Bee(11, 23, Players.WHITE));
                     } else {
                         while (!addChecker(x, y) || !addColorChecker(x, y, Players.WHITE)){
                             System.out.println("you cant add your piece here.\nchoose another coordinates:");
@@ -76,7 +76,7 @@ public class Game {
             case "a":
                 if(w_player.antCounter != 0) {
                     if(w_player.Total_piece==11){
-                        addNewPiece(10, 10, new Ant(10, 10, Players.WHITE));
+                        addNewPiece(11, 23, new Ant(11, 23, Players.WHITE));
                     } else {
                         while (!addChecker(x, y) || !addColorChecker(x, y, Players.WHITE)){
                             System.out.println("you cant add your piece here.\nchoose another coordinates:");
@@ -92,7 +92,7 @@ public class Game {
             case "b":
                 if(w_player.beetleCounter != 0) {
                     if(w_player.Total_piece==11){
-                        addNewPiece(10, 10, new Beetle(10, 10, Players.WHITE));
+                        addNewPiece(11, 23, new Beetle(11, 23, Players.WHITE));
                     } else {
                         while (!addChecker(x, y) || !addColorChecker(x, y, Players.WHITE)){
                             System.out.println("you cant add your piece here.\nchoose another coordinates:");
@@ -108,7 +108,7 @@ public class Game {
             case "l":
                 if(w_player.locustCounter != 0) {
                     if(w_player.Total_piece==11){
-                        addNewPiece(10, 10, new Locust(10, 10, Players.WHITE));
+                        addNewPiece(11, 23, new Locust(11, 23, Players.WHITE));
                     } else {
                         while (!addChecker(x, y) || !addColorChecker(x, y, Players.WHITE)){
                             System.out.println("you cant add your piece here.\nchoose another coordinates:");
@@ -124,7 +124,7 @@ public class Game {
             case "s":
                 if(w_player.spiderCounter != 0) {
                     if(w_player.Total_piece==11){
-                        addNewPiece(10, 10, new Spider(10, 10, Players.WHITE));
+                        addNewPiece(11, 23, new Spider(11, 23, Players.WHITE));
                     } else {
                         while (!addChecker(x, y) || !addColorChecker(x, y, Players.WHITE)){
                             System.out.println("you cant add your piece here.\nchoose another coordinates:");
@@ -150,26 +150,15 @@ public class Game {
                 }
 
 
-                while (!hiveDestroy(x, y)){
-                    System.out.println("you cant move this piece");
-                    System.out.println("enter the coordinates of your piece:");
-                    x = input.nextInt();
-                    y = input.nextInt();
-                    if(boarder.pieces[x][y].isExtraBeetleHere){
-                        if(boarder.pieces[x][y].extraBeetle.player!=Players.WHITE){
-                            System.out.println("you cant move this piece because there is a beetle on it");
-                        } else {
-                            p=boarder.pieces[x][y].extraBeetle;
-                            boarder.pieces[x][y].isExtraBeetleHere=false;
-                        }
+                while (!hiveDestroy(x, y) || (p.player != Players.WHITE)){
+                    if(!hiveDestroy(x, y)){
+                        System.out.println("you cant move this piece");
+                        System.out.println("enter the coordinates of your piece:");
                     } else {
-                        p=boarder.pieces[x][y];
+                        System.out.println("this coordinate doesnt belong to your pieces.\n" +
+                                "enter new coordinates:");
                     }
-                }
 
-                while (p.player != Players.WHITE){
-                    System.out.println("this coordinate doesnt belong to your pieces.\n" +
-                            "enter new coordinates:");
                     x = input.nextInt();
                     y = input.nextInt();
                     if(boarder.pieces[x][y].isExtraBeetleHere){
@@ -193,20 +182,14 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]!=null){
-                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
+                    while (boarder.pieces[x][y]!=null || !p.isCoordinateAvailable(lastX, lastY, x, y) ||
+                            !isSliding(lastX, lastY, x, y)){
+                        if(boarder.pieces[x][y]!=null){
+                            System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        } else{
+                            System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        }
 
-                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
-
-                    while (!isSliding(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
                         x = input.nextInt();
                         y = input.nextInt();
                     }
@@ -237,14 +220,13 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]!=null){
-                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
+                    while (boarder.pieces[x][y]!=null || !p.isCoordinateAvailable(lastX, lastY, x, y)){
+                        if(boarder.pieces[x][y]!=null){
+                            System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        } else {
+                            System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        }
 
-                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
                         x = input.nextInt();
                         y = input.nextInt();
                     }
@@ -257,20 +239,14 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]!=null){
-                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
+                    while (boarder.pieces[x][y]!=null || !p.isCoordinateAvailable(lastX, lastY, x, y) ||
+                            !isSliding(lastX, lastY, x, y)){
+                        if(boarder.pieces[x][y]!=null){
+                            System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        } else{
+                            System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        }
 
-                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
-
-                    while (!isSliding(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
                         x = input.nextInt();
                         y = input.nextInt();
                     }
@@ -283,20 +259,14 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]!=null){
-                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
+                    while (boarder.pieces[x][y]!=null || !p.isCoordinateAvailable(lastX, lastY, x, y) ||
+                            !isSliding(lastX, lastY, x, y)){
+                        if(boarder.pieces[x][y]!=null){
+                            System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        } else{
+                            System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        }
 
-                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
-
-                    while (!isSliding(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
                         x = input.nextInt();
                         y = input.nextInt();
                     }
@@ -469,26 +439,15 @@ public class Game {
                     p=boarder.pieces[x][y];
                 }
 
-                while (!hiveDestroy(x, y)){
-                    System.out.println("you cant move this piece");
-                    System.out.println("enter the coordinates of your piece:");
-                    x = input.nextInt();
-                    y = input.nextInt();
-                    if(boarder.pieces[x][y].isExtraBeetleHere){
-                        if(boarder.pieces[x][y].extraBeetle.player!=Players.BLACK){
-                            System.out.println("you cant move this piece because there is a beetle on it");
-                        } else {
-                            p=boarder.pieces[x][y].extraBeetle;
-                            boarder.pieces[x][y].isExtraBeetleHere=false;
-                        }
+                while (!hiveDestroy(x, y) || (p.player != Players.BLACK)){
+                    if(!hiveDestroy(x, y)){
+                        System.out.println("you cant move this piece");
+                        System.out.println("enter the coordinates of your piece:");
                     } else {
-                        p=boarder.pieces[x][y];
+                        System.out.println("this coordinate doesnt belong to your pieces.\n" +
+                                "enter new coordinates:");
                     }
-                }
 
-                while (p.player != Players.BLACK){
-                    System.out.println("this coordinate doesnt belong to your pieces.\n" +
-                            "enter new coordinates:");
                     x = input.nextInt();
                     y = input.nextInt();
                     if(boarder.pieces[x][y].isExtraBeetleHere){
@@ -512,20 +471,14 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]!=null){
-                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
+                    while (boarder.pieces[x][y]!=null || !p.isCoordinateAvailable(lastX, lastY, x, y) ||
+                            !isSliding(lastX, lastY, x, y)){
+                        if(boarder.pieces[x][y]!=null){
+                            System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        } else {
+                            System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        }
 
-                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
-
-                    while (!isSliding(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
                         x = input.nextInt();
                         y = input.nextInt();
                     }
@@ -555,14 +508,13 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]!=null){
-                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
+                    while (boarder.pieces[x][y]!=null || !p.isCoordinateAvailable(lastX, lastY, x, y)){
+                        if(boarder.pieces[x][y]!=null){
+                            System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        } else {
+                            System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        }
 
-                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
                         x = input.nextInt();
                         y = input.nextInt();
                     }
@@ -574,20 +526,14 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]!=null){
-                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
+                    while (boarder.pieces[x][y]!=null || !p.isCoordinateAvailable(lastX, lastY, x, y) ||
+                            !isSliding(lastX, lastY, x, y)){
+                        if(boarder.pieces[x][y]!=null){
+                            System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        } else {
+                            System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        }
 
-                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
-
-                    while (!isSliding(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
                         x = input.nextInt();
                         y = input.nextInt();
                     }
@@ -599,20 +545,14 @@ public class Game {
                     System.out.println("enter new coordinates: ");
                     x = input.nextInt();
                     y = input.nextInt();
-                    while (boarder.pieces[x][y]!=null){
-                        System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
+                    while (boarder.pieces[x][y]!=null || !p.isCoordinateAvailable(lastX, lastY, x, y) ||
+                            !isSliding(lastX, lastY, x, y)){
+                        if(boarder.pieces[x][y]!=null){
+                            System.out.println("this coordinate belongs to another piece.\nenter new coordinates:");
+                        } else {
+                            System.out.println("this coordinate is not available\nenter new coordinates: ");
+                        }
 
-                    while (!p.isCoordinateAvailable(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
-                        x = input.nextInt();
-                        y = input.nextInt();
-                    }
-
-                    while (!isSliding(lastX, lastY, x, y)){
-                        System.out.println("this coordinate is not available\nenter new coordinates: ");
                         x = input.nextInt();
                         y = input.nextInt();
                     }
@@ -793,22 +733,30 @@ public class Game {
 
         boolean w_flag=false;
         boolean b_flag=false;
+        int w_counter=0, b_counter=0;
         if(w_existence){
             for(int i=0; i<6; i++){
                 if(w_bee.spaces[i]==0){
                     // pass
+                } else {
+                    w_counter++;
                 }
             }
-            w_flag=true; // white won
-
+            if(w_counter==6){
+                w_flag=true; // black won
+            }
         }
         if(b_existence){
             for(int i=0; i<6; i++){
                 if(b_bee.spaces[i]==0){
                     //pass
+                } else {
+                    b_counter++;
                 }
             }
-            b_flag=true; //black won
+            if(b_counter==6){
+                b_flag=true; //white won
+            }
         }
 
         if(w_flag && b_flag){
@@ -816,11 +764,11 @@ public class Game {
             return true;
         }
         if(w_flag){
-            System.out.println("****white player won****");
+            System.out.println("****black player won****");
             return true;
         }
         if(b_flag){
-            System.out.println("****black player won****");
+            System.out.println("****white player won****");
             return true;
         }
         return false;

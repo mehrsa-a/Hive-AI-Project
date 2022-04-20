@@ -1,9 +1,9 @@
 import utils.Players;
 
 public class Boarder {
-    Piece[][] pieces=new Piece[22][22];
-    static int col = 10;
-    static int row = 11;
+    Piece[][] pieces=new Piece[28][48];
+    static int col = 12;
+    static int row = 24;
     Piece currentPiece = null;
     static String s="";
     //white pieces have a * beside their name
