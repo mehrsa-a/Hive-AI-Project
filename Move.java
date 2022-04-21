@@ -118,4 +118,61 @@ public class Move {
         }
         return true;
     }
+
+
+    public static boolean hiveDestroy(int x, int y,Piece piece){
+        // check simple move //
+        int counter = 0;
+        for (int i = 0; i < 6; i++) {
+            if (piece.spaces[i] == 1)
+                counter += 1;
+        }
+        if (counter == 1){
+            return true;
+        }
+        if (counter == 2){
+            if(piece.spaces[0] == 1 && (piece.spaces[4] == 1 || piece.spaces[5] == 1)){
+                return true;
+            } else if(piece.spaces[3] == 1 && (piece.spaces[1] == 1 || piece.spaces[2] == 1)){
+                return true;
+            } else if (piece.spaces[5] == 1 && piece.spaces[1] == 1 ){
+                return true;
+            } else if(piece.spaces[2] == 1 && piece.spaces[4] == 1){
+                return true;
+            }
+
+        }
+        if (counter == 3){
+            if (piece.spaces[0] == 1 && piece.spaces[4] == 1 && piece.spaces[5] == 1){
+                return true;
+            }
+            if (piece.spaces[3] == 1 && piece.spaces[1] == 1 && piece.spaces[2] == 1){
+                return true;
+            }
+            if (piece.spaces[0] == 1 && piece.spaces[4] == 1 && piece.spaces[2] == 1){
+                return true;
+            }
+            if (piece.spaces[2] == 1 && piece.spaces[4] == 1 && piece.spaces[3] == 1){
+                return true;
+            }
+            if (piece.spaces[3] == 1 && piece.spaces[1] == 1 && piece.spaces[5] == 1){
+                return true;
+            }
+            if(piece.spaces[1] == 1 && piece.spaces[5] == 1 && piece.spaces[0] == 1){
+                return true;
+            }
+        }
+        if (counter == 4){
+            if (piece.spaces[0] == 1 && piece.spaces[4] == 1 && piece.spaces[3] == 1 && piece.spaces[1] == 1){
+                return true;
+            } if (piece.spaces[0] == 1 && piece.spaces[5] == 1 && piece.spaces[3] == 1 && piece.spaces[2] == 1){
+                return true;
+            } else if (piece.spaces[0] == 1 && piece.spaces[5] == 1 && piece.spaces[4] == 1 && piece.spaces[3] == 1)
+                return true;
+            else if (piece.spaces[0] == 1 && piece.spaces[1] == 1 && piece.spaces[2] == 1 && piece.spaces[3] == 1)
+                return true;
+            return false;
+        }
+        return counter <= 4;
+    }
 }
