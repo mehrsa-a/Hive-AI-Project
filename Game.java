@@ -585,6 +585,7 @@ public class Game {
             for(int j=0; j<48; j++){
                 if(boarder.pieces[i][j]!=null){
                     set.add(new Coordinate(i, j));
+                    break;
                 }
             }
         }
