@@ -316,7 +316,7 @@ public class Game {
         if(piece.equals("m")){
             System.out.println("enter the coordinates of your piece:");
         } else {
-            System.out.println("enter the coordinates you want to add yor piece to:");
+            System.out.println("enter the coordinates you want to add your piece to:");
         }
         x = input.nextInt();
         y = input.nextInt();
