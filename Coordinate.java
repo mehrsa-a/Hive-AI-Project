@@ -1,5 +1,7 @@
 import utils.SpaceStates;
 
+import java.util.Objects;
+
 public class Coordinate {
     int x;
     int y;
@@ -83,4 +85,14 @@ public class Coordinate {
 
         return coordinates;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        Coordinate c= (Coordinate) o;
+        if(this.x==c.x && this.y==c.y){
+            return true;
+        }
+        return false;
+    }
+
 }

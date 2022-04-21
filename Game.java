@@ -1,6 +1,7 @@
 import utils.Players;
+import utils.SpaceStates;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
     static Boarder boarder=new Boarder();
@@ -575,9 +576,48 @@ public class Game {
     }
 
     //check if hive gonna get destroy bu movement
-    // TODO
     public static boolean hiveDestroy(int x, int y){
-        return true;
+        Piece p=boarder.pieces[x][y];
+        boarder.pieces[x][y]=null;
+
+        Set<Coordinate> set=new HashSet<>();
+        for(int i=0; i<28; i++){
+            for(int j=0; j<48; j++){
+                if(boarder.pieces[i][j]!=null){
+                    set.add(new Coordinate(i, j));
+                }
+            }
+        }
+        List<Coordinate> list = new ArrayList<>(set);
+
+
+        while (list.size()!=0){
+            Coordinate pop=list.get(0);
+            list.remove(0);
+            for(int i=0; i<6; i++){
+                if(pop.getNeighborsStates(pop.x, pop.y)[i].spaceStates==SpaceStates.NOTNULL){
+                    boolean f=false;
+                    for(Coordinate c: set){
+                        if(pop.getNeighborsStates(pop.x, pop.y)[i].x==c.x && pop.getNeighborsStates(pop.x, pop.y)[i].y==c.y){
+                            f=true;
+                        }
+                    }
+                    if(!f){
+                        set.add(pop.getNeighborsStates(pop.x, pop.y)[i]);
+                        list = new ArrayList<>(set);
+                    }
+                }
+            }
+        }
+
+        int ans=(11-w_player.Total_piece)+(11- b_player.Total_piece);
+        System.out.println(set.size()+1+" "+ans);
+        boarder.pieces[x][y]=p;
+        if(set.size()+1==ans){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     //check if new piece is part of a hive
