@@ -1,4 +1,29 @@
+import utils.Players;
+
 public class Move {
+    // check the hive is closed
+    public static boolean isClosedHive(Piece piece){
+        int counter = 0;
+        for (int i = 0; i < 6; i++) {
+            if (piece.spaces[i] == 1)
+                counter += 1;
+        }
+        return counter >= 5;
+    }
+
+    public static boolean isClosedHive(int x,int y,Boarder boarder){
+        Piece hypoPiece = new Bee(x,y, Players.WHITE);
+        Game game = new Game();
+        game.addNewPiece(x,y,hypoPiece);
+
+        boolean flag = isClosedHive(hypoPiece);
+        if (flag){
+            game.freeSpaces(x, y);
+            return true;
+        }
+        return false;
+    }
+
     // move for Locust
     public boolean locustMove(Boarder boarder, Piece piece, String direction) {
         int new_X = 0;
