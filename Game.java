@@ -612,7 +612,6 @@ public class Game {
         }
 
         int ans=(11-w_player.Total_piece)+(11- b_player.Total_piece);
-        System.out.println(set.size()+1+" "+ans);
         boarder.pieces[x][y]=p;
         if(set.size()+1==ans){
             return true;
@@ -815,8 +814,126 @@ public class Game {
         return false;
     }
 
-    // TODO
-    public static boolean isSliding(int i, int j, int x, int y){
-        return true;
+    public static boolean isSliding(int lastX, int lastY, int x, int y){
+        Set<Coordinate> set=new HashSet<>();
+        set.add(new Coordinate(lastX, lastY));
+
+        List<Coordinate> list = new ArrayList<>(set);
+
+        while (list.size()!=0){
+            Coordinate pop=list.get(0);
+            list.remove(0);
+            for(int i=0; i<6; i++){
+                if(pop.getNeighborsStates(pop.x, pop.y)[i].spaceStates==SpaceStates.NULL){
+                    if(i==0){
+                        if(pop.getNeighborsStates(pop.x, pop.y)[3].spaceStates==SpaceStates.NOTNULL &&
+                                pop.getNeighborsStates(pop.x, pop.y)[4].spaceStates==SpaceStates.NOTNULL){
+                            return false;
+                        } else {
+                            boolean f=false;
+                            for(Coordinate c: set){
+                                if(pop.getNeighborsStates(pop.x, pop.y)[i].x==c.x && pop.getNeighborsStates(pop.x, pop.y)[i].y==c.y){
+                                    f=true;
+                                }
+                            }
+                            if(!f){
+                                set.add(pop.getNeighborsStates(pop.x, pop.y)[i]);
+                                list = new ArrayList<>(set);
+                            }
+                        }
+                    } else if(i==1){
+                        if(pop.getNeighborsStates(pop.x, pop.y)[2].spaceStates==SpaceStates.NOTNULL &&
+                                pop.getNeighborsStates(pop.x, pop.y)[5].spaceStates==SpaceStates.NOTNULL){
+                            return false;
+                        } else {
+                            boolean f=false;
+                            for(Coordinate c: set){
+                                if(pop.getNeighborsStates(pop.x, pop.y)[i].x==c.x && pop.getNeighborsStates(pop.x, pop.y)[i].y==c.y){
+                                    f=true;
+                                }
+                            }
+                            if(!f){
+                                set.add(pop.getNeighborsStates(pop.x, pop.y)[i]);
+                                list = new ArrayList<>(set);
+                            }
+                        }
+                    } else if(i==2){
+                        if(pop.getNeighborsStates(pop.x, pop.y)[1].spaceStates==SpaceStates.NOTNULL &&
+                                pop.getNeighborsStates(pop.x, pop.y)[3].spaceStates==SpaceStates.NOTNULL){
+                            return false;
+                        } else {
+                            boolean f=false;
+                            for(Coordinate c: set){
+                                if(pop.getNeighborsStates(pop.x, pop.y)[i].x==c.x && pop.getNeighborsStates(pop.x, pop.y)[i].y==c.y){
+                                    f=true;
+                                }
+                            }
+                            if(!f){
+                                set.add(pop.getNeighborsStates(pop.x, pop.y)[i]);
+                                list = new ArrayList<>(set);
+                            }
+                        }
+                    } else if(i==3){
+                        if(pop.getNeighborsStates(pop.x, pop.y)[0].spaceStates==SpaceStates.NOTNULL &&
+                                pop.getNeighborsStates(pop.x, pop.y)[2].spaceStates==SpaceStates.NOTNULL){
+                            return false;
+                        } else {
+                            boolean f=false;
+                            for(Coordinate c: set){
+                                if(pop.getNeighborsStates(pop.x, pop.y)[i].x==c.x && pop.getNeighborsStates(pop.x, pop.y)[i].y==c.y){
+                                    f=true;
+                                }
+                            }
+                            if(!f){
+                                set.add(pop.getNeighborsStates(pop.x, pop.y)[i]);
+                                list = new ArrayList<>(set);
+                            }
+                        }
+                    } else if(i==4){
+                        if(pop.getNeighborsStates(pop.x, pop.y)[0].spaceStates==SpaceStates.NOTNULL &&
+                                pop.getNeighborsStates(pop.x, pop.y)[5].spaceStates==SpaceStates.NOTNULL){
+                            return false;
+                        } else {
+                            boolean f=false;
+                            for(Coordinate c: set){
+                                if(pop.getNeighborsStates(pop.x, pop.y)[i].x==c.x && pop.getNeighborsStates(pop.x, pop.y)[i].y==c.y){
+                                    f=true;
+                                }
+                            }
+                            if(!f){
+                                set.add(pop.getNeighborsStates(pop.x, pop.y)[i]);
+                                list = new ArrayList<>(set);
+                            }
+                        }
+                    } else {
+                        if(pop.getNeighborsStates(pop.x, pop.y)[1].spaceStates==SpaceStates.NOTNULL &&
+                                pop.getNeighborsStates(pop.x, pop.y)[4].spaceStates==SpaceStates.NOTNULL){
+                            return false;
+                        } else {
+                            boolean f=false;
+                            for(Coordinate c: set){
+                                if(pop.getNeighborsStates(pop.x, pop.y)[i].x==c.x && pop.getNeighborsStates(pop.x, pop.y)[i].y==c.y){
+                                    f=true;
+                                }
+                            }
+                            if(!f){
+                                set.add(pop.getNeighborsStates(pop.x, pop.y)[i]);
+                                list = new ArrayList<>(set);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        for(Coordinate c: set){
+            if(c.x==x && c.y==y){
+                return true;
+            }
+        }
+
+        return false;
     }
+
 }
